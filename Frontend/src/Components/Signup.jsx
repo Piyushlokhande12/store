@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import axios from "axios"
 const Signup = () => {
   const [email,setEmail]=useState();
-  const [name,setName]=useState();
+  const [fullname,setFullname]=useState();
   const [password,setPassword]=useState();
-  const handleform=(e)=>{
+  const handleform=async(e)=>{
+    try{
     e.preventDefault();
-    console.log(email,name,password);
+    const data={email,fullname,password};
+    console.log(email,fullname,password);
+    const res=await axios.post('http://localhost:9000/user/signup',data);
+    localStorage.setItem("Users",JSON.stringify(res.data.user));
+    toast.success("signed successfully");
+    
+     } catch (err) {
+       toast.error(err.response?.data?.message || "Signup failed");
+    }
+
   }
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-slate-900 flex items-center justify-center px-4 py-8">
@@ -36,7 +46,7 @@ const Signup = () => {
 
           <form className="space-y-6" onSubmit={handleform}>
             <input
-            onChange={(e)=>setName(e.target.value)}
+            onChange={(e)=>setFullname(e.target.value)}
               type="text"
               placeholder="Full Name"
               className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none dark:bg-slate-700 dark:border-slate-600 dark:text-white"

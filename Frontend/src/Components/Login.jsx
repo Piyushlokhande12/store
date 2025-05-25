@@ -1,19 +1,31 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-
+import axios from 'axios';
+import toast from 'react-hot-toast';
 const Login = () => {
     const [email,setEmail]=useState();
     const [password,setPassword]=useState();
-    const handleform=(e)=>{
+    const handleform = async (e) => {
     e.preventDefault();
-    console.log(email,password);
-  }
+    try {
+      console.log('Logging in with:', email, password);
+      const res = await axios.post('http://localhost:9000/user/login', { email, password });
+      localStorage.setItem("Users",JSON.stringify(res.data.user));
+      toast.success("login success");
+      document.getElementById("my_modal_3").close();
+      window.location.reload();
+      // maybe redirect or store user here
+    } catch (e) {
+  console.error("Login error full:", e);
+ toast.error(e.response?.data?.message || "Login failed");
+}
+  };
   return (
     <div>
 <dialog id="my_modal_3" className="modal">
   <div className="modal-box  dark:bg-slate-900 dark:text-white dark:border  bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-slate-900 items-center justify-center px-4 ">
     <form method="dialog" onSubmit={handleform}>
-      <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+      <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => document.getElementById("my_modal_3").close()}>✕</button>
     
     <h3 className="font-bold text-lg">Login!</h3>
        <div className="mt-4 space-y-8">
