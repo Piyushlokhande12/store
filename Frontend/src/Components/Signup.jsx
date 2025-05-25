@@ -10,7 +10,8 @@ const Signup = () => {
     e.preventDefault();
     const data={email,fullname,password};
     console.log(email,fullname,password);
-    const res=await axios.post('http://localhost:9000/user/signup',data);
+    const res = await axios.post('https://store-l3cw.onrender.com/user/signup', data);
+
     localStorage.setItem("Users",JSON.stringify(res.data.user));
     toast.success("signed successfully");
     
