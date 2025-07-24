@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import backendUrl from '../config/api'; // adjust path as needed
-
+// import backendUrl from '../config/api'; // adjust path as needed
+import backendUrl from '../config/api.jsx';
 // const res = await axios.post(`${backendUrl}/user/login`, data);
 
 const Login = () => {
@@ -21,6 +21,7 @@ const Login = () => {
       // maybe redirect or store user here
     } catch (e) {
   console.error("Login error full:", e);
+  console.log(" newww ",backendUrl)
  toast.error(e.response?.data?.message || "Login failed");
 }
   };
