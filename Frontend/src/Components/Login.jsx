@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import backendUrl from '../config/api'; // adjust path as needed
+
+// const res = await axios.post(`${backendUrl}/user/login`, data);
+
 const Login = () => {
     const [email,setEmail]=useState();
     const [password,setPassword]=useState();
@@ -9,7 +13,7 @@ const Login = () => {
     e.preventDefault();
     try {
       console.log('Logging in with:', email, password);
-      const res = await axios.post('http://localhost:9000/user/login', { email, password });
+      const res = await axios.post(`${backendUrl}/user/login`, { email, password });
       localStorage.setItem("Users",JSON.stringify(res.data.user));
       toast.success("login success");
       document.getElementById("my_modal_3").close();

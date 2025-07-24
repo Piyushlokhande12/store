@@ -3,12 +3,16 @@ import Cards from "./Cards";
 import { Link } from "react-router-dom";
 import list from "../../public/list.json"
 import axios from "axios"
+import backendUrl from '../config/api';
+
+console.log(backendUrl); // should log: https://store-yb82.onrender.com
+
 const Course = () => {
   const [book,setBook]=useState([]);
   useEffect(()=>{
     const getbook=async()=>{
       try{
-        const res=await axios.get("http://localhost:9000/book");
+        const res=await axios.get(`${backendUrl}/book`);
         setBook(res.data);
         console.log(res);
       }

@@ -1,24 +1,29 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from "axios"
-const Signup = () => {
-  const [email,setEmail]=useState();
-  const [fullname,setFullname]=useState();
-  const [password,setPassword]=useState();
-  const handleform=async(e)=>{
-    try{
-    e.preventDefault();
-    const data={email,fullname,password};
-    console.log(email,fullname,password);
-    const res=await axios.post('http://localhost:9000/user/signup',data);
-    localStorage.setItem("Users",JSON.stringify(res.data.user));
-    toast.success("signed successfully");
-    
-     } catch (err) {
-       toast.error(err.response?.data?.message || "Signup failed");
-    }
+import axios from "axios";
+import toast from 'react-hot-toast';
+import backendUrl from '../config/api';
 
-  }
+const Signup = () => {
+  const [email, setEmail] = useState();
+  const [fullname, setFullname] = useState();
+  const [password, setPassword] = useState();
+
+
+  const handleform = async (e) => {
+    e.preventDefault();
+    try {
+      const data = { email, fullname, password };
+      console.log(email, fullname, password);
+
+      const res = await axios.post(`${backendUrl}/user/signup`, data);
+      localStorage.setItem("Users", JSON.stringify(res.data.user));
+      toast.success("Signed up successfully");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Signup failed");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-slate-900 flex items-center justify-center px-4 py-8">
       <div className="flex flex-col-reverse md:flex-row w-full max-w-5xl shadow-2xl rounded-2xl overflow-hidden bg-white dark:bg-slate-800 transition-all duration-300">
@@ -46,19 +51,19 @@ const Signup = () => {
 
           <form className="space-y-6" onSubmit={handleform}>
             <input
-            onChange={(e)=>setFullname(e.target.value)}
+              onChange={(e) => setFullname(e.target.value)}
               type="text"
               placeholder="Full Name"
               className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none dark:bg-slate-700 dark:border-slate-600 dark:text-white"
             />
             <input
-            onChange={(e)=>setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               type="email"
               placeholder="Email"
               className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none dark:bg-slate-700 dark:border-slate-600 dark:text-white"
             />
             <input
-            onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               type="password"
               placeholder="Password"
               className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none dark:bg-slate-700 dark:border-slate-600 dark:text-white"
